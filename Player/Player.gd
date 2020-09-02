@@ -1,10 +1,10 @@
 extends KinematicBody2D
 
-const FRICTION = 100
+const FRICTION = 400
 const SLIPPERYFRICTION = 1
-const ACCEL = 100
+const ACCEL = 400
 const SLIPPERYACCEL = 1
-const MAX_SPEED = 100
+const MAX_SPEED = 80
 
 var slippery = false;
 
@@ -36,7 +36,7 @@ func _physics_process(delta):
 			brakeNormalMovement(delta)
 	print(velocity)
 	
-	move_and_collide(velocity);
+	velocity = move_and_slide(velocity);
 
 func getSlipperyMovement(inputVector, delta):
 	velocity += inputVector * SLIPPERYACCEL * delta
@@ -46,7 +46,7 @@ func brakeSlipperyMovement(delta):
 	velocity = velocity.move_toward(Vector2.ZERO, SLIPPERYFRICTION * delta)
 	
 func getNormalMovement(inputVector, delta):
-	velocity = velocity.move_toward(inputVector * MAX_SPEED * delta, ACCEL * delta)
+	velocity = velocity.move_toward(inputVector * MAX_SPEED, ACCEL * delta)
 
 func brakeNormalMovement(delta):
 	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta);
