@@ -1,8 +1,12 @@
 extends KinematicBody2D
 
-const FRICTION = 1
-const ACCEL = 1
-const MAX_SPEED = 50
+const FRICTION = 100
+const SLIPPERYFRICTION = 1
+const ACCEL = 100
+const SLIPPERYACCEL = 1
+const MAX_SPEED = 100
+
+var slippery = false;
 
 var velocity = Vector2.ZERO
 
@@ -20,11 +24,29 @@ func _physics_process(delta):
 		animationTree.set("parameters/Idle/blend_position", inputVector)
 		animationTree.set("parameters/Run/blend_position", inputVector)
 		animationState.travel("Run")
-		velocity += inputVector * ACCEL * delta
-		velocity = velocity.clamped(MAX_SPEED * delta)
+		if slippery:
+			getSlipperyMovement(inputVector, delta)
+		else:
+			getNormalMovement(inputVector, delta)
 	else:
 		animationState.travel("Idle")
-		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta);
+		if slippery:
+			brakeSlipperyMovement(delta)
+		else:
+			brakeNormalMovement(delta)
 	print(velocity)
 	
 	move_and_collide(velocity);
+
+func getSlipperyMovement(inputVector, delta):
+	velocity += inputVector * SLIPPERYACCEL * delta
+	velocity = velocity.clamped(MAX_SPEED * delta)
+	
+func brakeSlipperyMovement(delta):
+	velocity = velocity.move_toward(Vector2.ZERO, SLIPPERYFRICTION * delta)
+	
+func getNormalMovement(inputVector, delta):
+	velocity = velocity.move_toward(inputVector * MAX_SPEED * delta, ACCEL * delta)
+
+func brakeNormalMovement(delta):
+	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta);
