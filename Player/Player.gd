@@ -70,14 +70,17 @@ func move_state(delta):
 	else:
 		animationState.travel("Idle")
 		brake(delta);
-	print(inputVector)
+	print(velocity)
 	
 	if Input.is_action_just_pressed("attack"):
 		state = Attack
-	elif Input.is_action_just_pressed("roll") && inputVector != Vector2.ZERO:
-		if !slippery:
-			velocity = getNormalizedInputVector() * ROLL_SPEED
-		state = Roll
+	elif Input.is_action_just_pressed("roll"):
+		if inputVector != Vector2.ZERO:
+			if !slippery:
+				velocity = getNormalizedInputVector() * ROLL_SPEED
+			state = Roll
+		#else:
+			#velocity = $PositionPivot.
 		
 func getNormalMovement(inputVector, delta):
 	velocity = velocity.move_toward(inputVector * MAX_SPEED, ACCEL * delta)

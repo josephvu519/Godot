@@ -33,6 +33,7 @@ region_rect = Rect2( 0, 0, 320, 180 )
 [node name="DirtTileMap" parent="." instance=ExtResource( 4 )]
 
 [node name="CliffTileMap" parent="." instance=ExtResource( 5 )]
+collision_mask = 0
 tile_data = PoolIntArray( 262144, 0, 0, 262145, 0, 1, 262146, 0, 5, 262147, 0, 196610, 327680, 0, 131072, 327681, 0, 131073, 327682, 0, 131074 )
 
 [node name="YSort" type="YSort" parent="."]
@@ -51,7 +52,7 @@ position = Vector2( 148.094, 48.2586 )
 [node name="Grass" type="YSort" parent="YSort"]
 
 [node name="Grass" parent="YSort/Grass" instance=ExtResource( 6 )]
-position = Vector2( 164.219, 136 )
+position = Vector2( 200, 128 )
 
 [node name="Grass2" parent="YSort/Grass" instance=ExtResource( 6 )]
 position = Vector2( 208, 128 )
@@ -72,3 +73,5 @@ shape = SubResource( 3 )
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D"]
 shape = SubResource( 4 )
+
+[editable path="YSort/Grass/Grass"]
