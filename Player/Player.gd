@@ -17,13 +17,16 @@ var state = Move
 var slippery = false
 
 var velocity = Vector2.ZERO
+var rollVector = Vector2.RIGHT
 
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
+onready var swordHitbox = $PositionPivot/SwordHitbox
 
 func _ready():
 	animationTree.active = true;
+	swordHitbox.knockback_vector = rollVector
 
 func _process(delta):
 	match state:
@@ -46,6 +49,7 @@ func roll_state(delta):
 func attack_animation_finished():
 	state = Move
 func roll_animation_finished():
+	velocity = Vector2.ZERO
 	state = Move
 	
 func getNormalizedInputVector():
@@ -58,6 +62,8 @@ func move_state(delta):
 	var inputVector = getNormalizedInputVector()
 	
 	if (inputVector != Vector2.ZERO):
+		rollVector = inputVector
+		swordHitbox.knockback_vector = inputVector
 		animationTree.set("parameters/Idle/blend_position", inputVector)
 		animationTree.set("parameters/Run/blend_position", inputVector)
 		animationTree.set("parameters/Attack/blend_position", inputVector)
@@ -70,17 +76,14 @@ func move_state(delta):
 	else:
 		animationState.travel("Idle")
 		brake(delta);
-	print(velocity)
+	print(rollVector)
 	
 	if Input.is_action_just_pressed("attack"):
 		state = Attack
 	elif Input.is_action_just_pressed("roll"):
-		if inputVector != Vector2.ZERO:
-			if !slippery:
-				velocity = getNormalizedInputVector() * ROLL_SPEED
-			state = Roll
-		#else:
-			#velocity = $PositionPivot.
+		if !slippery:
+			velocity = rollVector * ROLL_SPEED
+		state = Roll
 		
 func getNormalMovement(inputVector, delta):
 	velocity = velocity.move_toward(inputVector * MAX_SPEED, ACCEL * delta)
