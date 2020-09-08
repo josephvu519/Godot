@@ -1,0 +1,1 @@
+xtends CollisionShape2D

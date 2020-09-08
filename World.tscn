@@ -76,6 +76,9 @@ shape = SubResource( 3 )
 shape = SubResource( 4 )
 
 [node name="Bat" parent="." instance=ExtResource( 7 )]
-position = Vector2( 238.17, 43.6904 )
+position = Vector2( 256, 136 )
+
+[node name="Bat2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 248, 60.5086 )
 
 [editable path="YSort/Grass/Grass"]

@@ -1,11 +1,10 @@
 extends Sprite
 
+const GRASSEFFECTSCENE = preload("res://Effects/GrassEffect.tscn")
+
 func create_grass_effect():
-	#if Input.is_action_just_pressed("attack"):
-	var grassEffectScene = load("res://Effects/GrassEffect.tscn")
-	var grassEffect = grassEffectScene.instance()
-	var world = get_tree().current_scene
-	world.add_child(grassEffect)
+	var grassEffect = GRASSEFFECTSCENE.instance()
+	get_parent().add_child(grassEffect)
 	grassEffect.global_position = global_position
 
 

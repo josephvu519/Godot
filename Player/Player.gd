@@ -1,11 +1,11 @@
 extends KinematicBody2D
 
-const FRICTION = 500
-const SLIPPERYFRICTION = 50
-const ACCEL = 500
-const SLIPPERYACCEL = 50
-const MAX_SPEED = 80
-const ROLL_SPEED = 100
+export var FRICTION = 500
+export var SLIPPERYFRICTION = 50
+export var ACCEL = 500
+export var SLIPPERYACCEL = 50
+export var MAX_SPEED = 80
+export var ROLL_SPEED = 100
 
 enum {
 	Attack,
@@ -15,7 +15,7 @@ enum {
 
 var state = Move
 var slippery = false
-
+var stats = PlayerStats
 var velocity = Vector2.ZERO
 var rollVector = Vector2.RIGHT
 
@@ -23,8 +23,10 @@ onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 onready var swordHitbox = $PositionPivot/SwordHitbox
+onready var hurtbox = $Hurtbox
 
 func _ready():
+	stats.connect("no_health", self, "queue_free")
 	animationTree.active = true;
 	swordHitbox.knockback_vector = rollVector
 
@@ -76,7 +78,7 @@ func move_state(delta):
 	else:
 		animationState.travel("Idle")
 		brake(delta);
-	print(rollVector)
+	#print(rollVector)
 	
 	if Input.is_action_just_pressed("attack"):
 		state = Attack
@@ -102,3 +104,11 @@ func brakeNormalMovement(delta):
 	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta);
 
 
+
+
+func _on_Hurtbox_area_entered(area):
+	if !hurtbox.is_invincible():
+		stats.health -= 1
+		print("Health after hit: " + str(stats.health))
+		hurtbox.start_invincibility(0.5)
+		hurtbox.create_hit_effect()
