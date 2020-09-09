@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://World/Bush.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://World/CliffTileMap.tscn" type="PackedScene" id=5]
 [ext_resource path="res://World/Grass.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Enemies/Bat.tscn" type="PackedScene" id=7]
+[ext_resource path="res://UI/HealthUI.tscn" type="PackedScene" id=8]
 
 [sub_resource type="SegmentShape2D" id=1]
 b = Vector2( 0, 184 )
@@ -80,5 +81,7 @@ position = Vector2( 256, 136 )
 
 [node name="Bat2" parent="." instance=ExtResource( 7 )]
 position = Vector2( 248, 60.5086 )
+
+[node name="HealthUI" parent="." instance=ExtResource( 8 )]
 
 [editable path="YSort/Grass/Grass"]
