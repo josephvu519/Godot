@@ -1,10 +1,20 @@
 extends Node
 
-export var max_health = 4
-onready var health = max_health setget set_health
+export var max_health = 4 setget set_max_health
+var health = max_health setget set_health
 
 signal no_health
-signal health_changed
+signal health_changed(value)
+signal max_health_changed(value)
+
+func _ready():
+	health = max_health
+
+func set_max_health(value):
+	max_health = value
+	#self is needed to call the setter
+	self.health = min(health, max_health)
+	emit_signal("max_health_changed", max_health)
 
 func set_health(value):
 	health = value

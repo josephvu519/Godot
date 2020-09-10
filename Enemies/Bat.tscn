@@ -44,13 +44,14 @@ radius = 7.33429
 height = 3.3449
 
 [sub_resource type="CircleShape2D" id=9]
-radius = 47.8169
+radius = 79.0888
 
 [sub_resource type="CircleShape2D" id=10]
 radius = 4.23389
 
 [node name="Bat" type="KinematicBody2D"]
 collision_layer = 16
+collision_mask = 17
 script = ExtResource( 3 )
 
 [node name="ShadowSprite" type="Sprite" parent="."]
@@ -59,6 +60,7 @@ texture = ExtResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 6 )
 animation = "Fly"
+frame = 4
 playing = true
 offset = Vector2( 0, -12 )
 

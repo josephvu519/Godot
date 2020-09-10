@@ -83,6 +83,7 @@ func move_state(delta):
 	if Input.is_action_just_pressed("attack"):
 		state = Attack
 	elif Input.is_action_just_pressed("roll"):
+		PlayerStats.max_health -= 1
 		if !slippery:
 			velocity = rollVector * ROLL_SPEED
 		state = Roll
@@ -103,12 +104,9 @@ func brakeSlipperyMovement(delta):
 func brakeNormalMovement(delta):
 	velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta);
 
-
-
-
 func _on_Hurtbox_area_entered(area):
 	if !hurtbox.is_invincible():
 		stats.health -= 1
 		print("Health after hit: " + str(stats.health))
-		hurtbox.start_invincibility(0.5)
+		hurtbox.start_invincibility(0.75)
 		hurtbox.create_hit_effect()
