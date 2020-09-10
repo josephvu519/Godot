@@ -47,6 +47,7 @@ func attack_state(delta):
 	brake(delta);
 func roll_state(delta):
 	animationState.travel("Roll")
+	hurtbox.start_invincibility(0.75)
 	
 func attack_animation_finished():
 	state = Move
@@ -83,7 +84,6 @@ func move_state(delta):
 	if Input.is_action_just_pressed("attack"):
 		state = Attack
 	elif Input.is_action_just_pressed("roll"):
-		PlayerStats.max_health -= 1
 		if !slippery:
 			velocity = rollVector * ROLL_SPEED
 		state = Roll

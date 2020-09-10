@@ -22,6 +22,7 @@ onready var sprite = $AnimatedSprite
 onready var stats = $Stats
 onready var playerDetectionZone = $PlayerDetectionZone
 onready var hurtbox = $Hurtbox
+onready var softCollision = $SoftCollision
 
 func _ready():
 	print("Max Health of Bat: " + str(stats.max_health))
@@ -44,7 +45,8 @@ func _physics_process(delta):
 				velocity = velocity.move_toward(direction * MaxSpeed, Acceleration * delta)
 			else:
 				state = Idle
-				
+	if softCollision.is_colliding():
+		velocity += softCollision.get_push_vector() * delta * 100
 	sprite.flip_h = velocity.x < 0
 	velocity = move_and_slide(velocity)
 
