@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+const PlayerHurtSoundEffect = preload("res://Player/PlayerHurtSound.tscn")
+
 export var FRICTION = 500
 export var SLIPPERYFRICTION = 50
 export var ACCEL = 500
@@ -38,15 +40,16 @@ func _process(delta):
 		Attack:
 			attack_state(delta)
 		Roll:
-			roll_state(delta)
+			roll_state()
 			
 	velocity = move_and_slide(velocity)
 		
 	
 func attack_state(delta):
 	animationState.travel("Attack")
-	brake(delta);
-func roll_state(delta):
+	brake(delta)
+	
+func roll_state():
 	animationState.travel("Roll")
 	hurtbox.start_invincibility(0.75)
 	
@@ -111,3 +114,5 @@ func _on_Hurtbox_area_entered(area):
 		print("Health after hit: " + str(stats.health))
 		hurtbox.start_invincibility(0.75)
 		hurtbox.create_hit_effect()
+		var playerHurtSound = PlayerHurtSoundEffect.instance()
+		get_tree().current_scene.add_child(playerHurtSound)
